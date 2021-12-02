@@ -6,6 +6,14 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: Layout,
     redirect: '/list',
+    beforeEnter: (to, from, next) => {
+      const pikpakLogin = JSON.parse(window.localStorage.getItem('pikpakLogin') || '{}')
+      if((!pikpakLogin || !pikpakLogin.access_token) && to.name !== 'setting') {
+       next('/login')
+      } else {
+        next()
+      }
+    },
     children: [
       {
         path: 'list/:id?',
@@ -35,19 +43,24 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/test.vue')
   },
   {
-    path: '/s/:id',
-    name: 'shareInfo',
-    component: () => import('../views/shareInfo.vue'),
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('../views/login.vue'),
   },
   {
+    path: '/sms',
+    name: 'sms',
+    component: () => import('../views/sms.vue'),
+  },
+  {
     path: '/register',
     name: 'register',
     component: () => import('../views/register.vue'),
+  },
+  {
+    path: '/testtest',
+    name: 'testtest',
+    component: () => import('../views/testtest.vue'),
   },
 ]
 
